@@ -3,12 +3,12 @@ import { Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import { leadsActions } from "../redux/actions/leads.actions";
+import AddMark from "./AddMark";
 
 const LeadsTable = () => {
   const dispatch = useDispatch();
   const leadsData = useSelector((state) => state.leads.leads);
   const loading = useSelector((state) => state.leads.loading);
-  const count = useSelector((state) => state.leads.count);
 
   useEffect(() => {
     const getAllLeads = () => {
@@ -46,8 +46,15 @@ const LeadsTable = () => {
                   <td>{lead.location_string}</td>
                   <td>
                     <span>
-                      <Button variant="outline-success">Mark Update</Button>
-                      <Button variant="outline-danger">Mark Update</Button>
+                      <Button
+                        variant="outline-danger"
+                        onClick={() => {
+                          dispatch(leadsActions.deleteLead(lead._id));
+                        }}
+                      >
+                        Delete
+                      </Button>
+                      <AddMark id={lead._id} />
                     </span>
                   </td>
                 </tr>

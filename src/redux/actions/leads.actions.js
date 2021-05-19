@@ -22,5 +22,35 @@ const addLead = (data) => async (dispatch) => {
     dispatch({ type: types.ADD_LEAD_FAILURE, payload: error.message });
   }
 };
+const deleteLead = (leadId) => async (dispatch) => {
+  try {
+    dispatch({ type: types.DELETE_LEAD_REQUEST, payload: null });
+    const res = await api.delete(`/leads/${leadId}`);
+    dispatch(getAllLeads());
+    dispatch({ type: types.DELETE_LEAD_SUCCESS, payload: res });
+    toast.success(res.data.message);
+  } catch (error) {
+    dispatch({
+      type: types.DELETE_LEAD_FAILURE,
+      payload: error.message,
+    });
+  }
+};
+const updateMark =
+  ({ communication }, id) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: types.UPDATE_MARK_REQUEST, payload: null });
+      const res = await api.put(`/mark_lead/${id}`, communication);
+      dispatch(getAllLeads());
+      dispatch({ type: types.UPDATE_MARK_SUCCESS, payload: res });
+      toast.success(res.data.message);
+    } catch (error) {
+      dispatch({
+        type: types.UPDATE_MARK_FAILURE,
+        payload: error.message,
+      });
+    }
+  };
 
-export const leadsActions = { getAllLeads, addLead };
+export const leadsActions = { getAllLeads, addLead, deleteLead, updateMark };
