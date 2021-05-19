@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Col, Form, Modal } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { leadsActions } from "../redux/actions/leads.actions";
 
 const AddLead = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     first_name: "",
@@ -18,6 +21,28 @@ const AddLead = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const {
+      first_name,
+      last_name,
+      email,
+      mobile,
+      location_type,
+      location_string,
+    } = formData;
+    dispatch(
+      leadsActions.addLead({
+        first_name,
+        last_name,
+        email,
+        mobile,
+        location_type,
+        location_string,
+      })
+    );
+    setShow(false);
+  };
   return (
     <>
       <Button variant="outline-secondary" onClick={handleShow}>
@@ -28,7 +53,7 @@ const AddLead = () => {
           <Modal.Title>ADD LEAD</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Form.Row>
               <Form.Group as={Col} controlId="formGridFirstName">
                 <Form.Label>First Name</Form.Label>

@@ -4,6 +4,7 @@ const initialState = {
   leads: null,
   loading: false,
   error: null,
+  count: 0,
 };
 const leadsReducers = (state = initialState, action) => {
   switch (action.type) {
@@ -24,6 +25,7 @@ const leadsReducers = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        count: state.count++,
       };
 
     case types.GET_LEADS_SUCCESS:

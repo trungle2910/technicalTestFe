@@ -8,13 +8,14 @@ const LeadsTable = () => {
   const dispatch = useDispatch();
   const leadsData = useSelector((state) => state.leads.leads);
   const loading = useSelector((state) => state.leads.loading);
+  const count = useSelector((state) => state.leads.count);
 
   useEffect(() => {
     const getAllLeads = () => {
       dispatch(leadsActions.getAllLeads());
     };
     getAllLeads();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
